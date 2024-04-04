@@ -2,11 +2,14 @@ import smbus
 from LCD1602 import CharLCD1602
 from gpiozero import MotionSensor
 from gpiozero import AngularServo
+from gpiozero import DigitalInputDevice
+from signal import pause
 from time import sleep
 
 # Setting GPIOs to each sensor
 pirSensor = MotionSensor(18)
 lcd1602 = CharLCD1602()
+irSensor = DigitalInputDevice(12)
 
 # Setting details for Servo Motor
 servoGPIO = 23
@@ -36,25 +39,39 @@ def servoLoopClose():
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
         
-def noMotion():
+def motionIRDetected():
+    print("Item thrown")
+    sleep(1)
+    
+def noIRMotion():
+    print("Item not yet thrown")
+    sleep(1)
+    
+def noPIRMotion():
     print("No motion detected")
     sleep(1)
     
     
-def motionDetected():
+def motionPIRDetected():
     print("Motion detected")
     LCDDisplay("Welcome","Press button")
     sleep(3)
     LCDDisplay("Bins No","is opening")
     servoLoopOpen()
+    while True:
+        if irSensor.value == 0:
+            motionIRDetected()
+            break
+        else:
+            noIRMotion()
     lcd1602.clear()
     
 def PIRLoop():
     while True:
         if pirSensor.value == 1:
-            motionDetected()
+            motionPIRDetected()
         else:
-            noMotion()
+            noPIRMotion()
     
 # Starting the program
 if __name__ == '__main__':
@@ -65,5 +82,5 @@ if __name__ == '__main__':
         lcd1602.clear()
         servoLoopClose()
         LCDDisplay("Ending program")
-        sleep(5)
+        sleep(3)
         lcd1602.clear()
