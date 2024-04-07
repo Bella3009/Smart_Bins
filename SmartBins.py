@@ -17,6 +17,10 @@ irSensor = DigitalInputDevice(12)
 trigPin = 27
 echoPin = 25
 sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
+binDepth = 23
+halfEmpty = 23/2
+nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
+
 
 # Setting details for Servo Motor
 servoGPIO = 23
@@ -31,6 +35,7 @@ rLED = 26
 gLED = 19
 bLED = 13
 led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
+
 
 def LCDDisplay(Msg1,Msg2=""):
     lcd1602.init_lcd()
@@ -56,7 +61,8 @@ def distanceMeasure():
     distance = round(distance, 2)
     return distance
     
-def setColor():
+def setColor(rDepth):
+    
     """ code taken from https://gpiozero.readthedocs.io/en/stable/recipes.html#full-color-led"""
     
     led.red = 1  # full red
@@ -121,8 +127,9 @@ if __name__ == '__main__':
     try:
         LCDDisplay("Welcome","Press button")
         sleep(3)
-        setColor()
-        distanceMeasure()
+        remainDepth = distanceMeasure()
+        setColor(remainDepth)
+        print(f"Empty: {binDepth} so Half:{halfEmpty} and Nearly full: {nearFull}")
         LCDDisplay("Press button to","throw the item")
         sleep(3)
         PIRLoop()
