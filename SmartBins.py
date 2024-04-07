@@ -6,75 +6,14 @@ from gpiozero import DigitalInputDevice
 from gpiozero import DistanceSensor
 from gpiozero import RGBLED
 from signal import pause
+from gpiozero import Button
 from time import sleep
 
 # Setting GPIOs to each sensor
 pirSensor = MotionSensor(18)
-lcd1602 = CharLCD1602()import smbus
-    sleep(1)
-
-    led.color = (0, 0, 0)  # off
-    sleep(1)
-    
-def motionIRDetected():
-    print("Item thrown")
-    sleep(1)
-    
-def noIRMotion():
-    print("Item not yet thrown")
-    sleep(1)
-    
-def noPIRMotion():
-    print("No motion detected")
-    sleep(1)
-    
-    
-def motionPIRDetected():
-    print("Motion detected")
-    LCDDisplay("Bins No","is opening")
-    servoOpen()
-    while True:
-        if irSensor.value == 0:
-            motionIRDetected()
-            break
-        else:
-            noIRMotion()
-    LCDDisplay("Bins No","is closing")
-    servoClose()
-    sleep(4)
-    lcd1602.clear()
-    distance = distanceMeasure()
-    
-    
-def PIRLoop():
-    while True:
-        if pirSensor.value == 1:
-            motionPIRDetected()
-        else:
-            noPIRMotion()
-    
-# Starting the program
-if __name__ == '__main__':
-    print ('Program is starting ... ')
-    try:
-        LCDDisplay("Welcome","Press button")
-        sleep(3)
-        remainDepth = distanceMeasure()
-        setColor(remainDepth)
-        print(f"Empty: {binDepth} so Half:{halfEmpty} and Nearly full: {nearFull}")
-        LCDDisplay("Press button to","throw the item")
-        sleep(3)
-        PIRLoop()
-    except KeyboardInterrupt:
-        lcd1602.clear()
-        servoClose()
-        sensor.close()
-        LCDDisplay("Ending program")
-        sleep(3)
-        lcd1602.clear()
-        led.color = (0, 0, 0)  # off
-
+lcd1602 = CharLCD1602()
 irSensor = DigitalInputDevice(12)
+button = Button(20)
 
 # Setting details for Distance Sensor
 trigPin = 27
@@ -98,6 +37,14 @@ gLED = 19
 bLED = 13
 led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
 
+def buttonPressed():
+    while True:
+        if button.is_pressed:
+            print("Waiting for button to be pressed")
+            # I don't know why yet but is_pressed is giving True when not pressed.
+        else:
+            print("Button is pressed, program continue")
+            break
 
 def LCDDisplay(Msg1,Msg2=""):
     lcd1602.init_lcd()
@@ -127,6 +74,8 @@ def setColor(rDepth):
     
     if rDepth <= nearFull:
         led.color = (1,0,0)
+        LCDDisplay("Bin No is", "nearly full")
+        sleep(2)
     
     elif rDepth <= halfEmpty and rDepth > nearFull:
         led.color = (1,1,0)
@@ -178,12 +127,12 @@ if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
         LCDDisplay("Welcome","Press button")
-        sleep(3)
         remainDepth = distanceMeasure()
         setColor(remainDepth)
-        print(f"Empty: {binDepth} so Half:{halfEmpty} and Nearly full: {nearFull}")
+        sleep(3)
         LCDDisplay("Press button to","throw the item")
         sleep(3)
+        buttonPressed()
         PIRLoop()
     except KeyboardInterrupt:
         lcd1602.clear()
