@@ -66,9 +66,13 @@ def setColor(rDepth):
         led.color = (1,0,0)
         LCDDisplay("Bin No is", "nearly full")
         sleep(2)
+        LCDDisplay("Press button to","throw next item")
     
     elif rDepth <= halfEmpty and rDepth > nearFull:
         led.color = (1,1,0)
+        LCDDisplay("Bin No is", "half full")
+        sleep(2)
+        LCDDisplay("Press button to","throw next item")
     
     elif rDepth > halfEmpty:
         led.color = (0,1,0)
