@@ -5,8 +5,8 @@ from gpiozero import AngularServo
 from gpiozero import DigitalInputDevice
 from gpiozero import DistanceSensor
 from gpiozero import RGBLED
-from signal import pause
 from gpiozero import Button
+from signal import pause
 from time import sleep
 
 # Setting GPIOs to each sensor
@@ -36,16 +36,7 @@ rLED = 26
 gLED = 19
 bLED = 13
 led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
-
-def buttonPressed():
-    while True:
-        if button.is_pressed:
-            print("Waiting for button to be pressed")
-            # I don't know why yet but is_pressed is giving True when not pressed.
-        else:
-            print("Button is pressed, program continue")
-            break
-
+    
 def LCDDisplay(Msg1,Msg2=""):
     lcd1602.init_lcd()
     
@@ -71,7 +62,6 @@ def distanceMeasure():
     return distance
     
 def setColor(rDepth):
-    
     if rDepth <= nearFull:
         led.color = (1,0,0)
         LCDDisplay("Bin No is", "nearly full")
@@ -99,22 +89,28 @@ def noPIRMotion():
     
 def motionPIRDetected():
     print("Motion detected")
-    LCDDisplay("Bins No","is opening")
-    servoOpen()
     while True:
-        if irSensor.value == 0:
-            motionIRDetected()
-            break
+        if button.is_pressed:
+            print("Waiting for button to be pressed")
+            # I don't know why yet but is_pressed is giving True when not pressed.
         else:
-            noIRMotion()
-    LCDDisplay("Bins No","is closing")
-    servoClose()
-    sleep(4)
-    lcd1602.clear()
-    distance = distanceMeasure()
-    setColor(distance)
-    
-    
+            print("Button is pressed, program continue")
+            LCDDisplay("Bins No","is opening")
+            servoOpen()
+            while True:
+                if irSensor.value == 0:
+                    motionIRDetected()
+                    break
+                else:
+                    noIRMotion()
+            LCDDisplay("Bins No","is closing")
+            servoClose()
+            sleep(4)
+            lcd1602.clear()
+            distance = distanceMeasure()
+            setColor(distance)
+            break
+
 def PIRLoop():
     while True:
         if pirSensor.value == 1:
@@ -131,8 +127,6 @@ if __name__ == '__main__':
         setColor(remainDepth)
         sleep(3)
         LCDDisplay("Press button to","throw the item")
-        sleep(3)
-        buttonPressed()
         PIRLoop()
     except KeyboardInterrupt:
         lcd1602.clear()
