@@ -3,6 +3,7 @@ from LCD1602 import CharLCD1602
 from gpiozero import MotionSensor
 from gpiozero import AngularServo
 from gpiozero import DigitalInputDevice
+from gpiozero import DistanceSensor
 from signal import pause
 from time import sleep
 
@@ -10,6 +11,11 @@ from time import sleep
 pirSensor = MotionSensor(18)
 lcd1602 = CharLCD1602()
 irSensor = DigitalInputDevice(12)
+
+# Setting details for Distance Sensor
+trigPin = 27
+echoPin = 25
+sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
 
 # Setting details for Servo Motor
 servoGPIO = 23
@@ -39,6 +45,9 @@ def servoLoopClose():
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
         
+def distanceLoop():
+    print('Distance: ', sensor.distance * 100,'cm')
+    
 def motionIRDetected():
     print("Item thrown")
     sleep(1)
@@ -54,8 +63,6 @@ def noPIRMotion():
     
 def motionPIRDetected():
     print("Motion detected")
-    LCDDisplay("Welcome","Press button")
-    sleep(3)
     LCDDisplay("Bins No","is opening")
     servoLoopOpen()
     while True:
@@ -64,6 +71,9 @@ def motionPIRDetected():
             break
         else:
             noIRMotion()
+    LCDDisplay("Bins No","is closing")
+    servoLoopClose()
+    sleep(4)
     lcd1602.clear()
     
 def PIRLoop():
@@ -77,10 +87,16 @@ def PIRLoop():
 if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
+        LCDDisplay("Welcome","Press button")
+        sleep(3)
+        distanceLoop()
+        LCDDisplay("Press button to","throw the next item")
+        sleep(3)
         PIRLoop()
     except KeyboardInterrupt:
         lcd1602.clear()
         servoLoopClose()
+        sensor.close()
         LCDDisplay("Ending program")
         sleep(3)
         lcd1602.clear()
