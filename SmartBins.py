@@ -33,20 +33,22 @@ def LCDDisplay(Msg1,Msg2=""):
     lcd1602.write(0,0,Msg1)
     lcd1602.write(0,1,Msg2)
 
-def servoLoopOpen():
+def servoOpen():
     for angle in range(0, 181, 1):   # make servo rotate from 0 to 180 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
 
-def servoLoopClose():
+def servoClose():
     for angle in range(180, -1, -1): # make servo rotate from 180 to 0 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
         
-def distanceLoop():
-    print('Distance: ', sensor.distance * 100,'cm')
+def distanceMeasure():
+    distance = sensor.distance * 100
+    distance = round(distance, 2)
+    return distance
     
 def motionIRDetected():
     print("Item thrown")
@@ -64,7 +66,7 @@ def noPIRMotion():
 def motionPIRDetected():
     print("Motion detected")
     LCDDisplay("Bins No","is opening")
-    servoLoopOpen()
+    servoOpen()
     while True:
         if irSensor.value == 0:
             motionIRDetected()
@@ -72,9 +74,11 @@ def motionPIRDetected():
         else:
             noIRMotion()
     LCDDisplay("Bins No","is closing")
-    servoLoopClose()
+    servoClose()
     sleep(4)
     lcd1602.clear()
+    distance = distanceMeasure()
+    
     
 def PIRLoop():
     while True:
@@ -95,7 +99,7 @@ if __name__ == '__main__':
         PIRLoop()
     except KeyboardInterrupt:
         lcd1602.clear()
-        servoLoopClose()
+        servoClose()
         sensor.close()
         LCDDisplay("Ending program")
         sleep(3)
