@@ -10,7 +10,70 @@ from time import sleep
 
 # Setting GPIOs to each sensor
 pirSensor = MotionSensor(18)
-lcd1602 = CharLCD1602()
+lcd1602 = CharLCD1602()import smbus
+    sleep(1)
+
+    led.color = (0, 0, 0)  # off
+    sleep(1)
+    
+def motionIRDetected():
+    print("Item thrown")
+    sleep(1)
+    
+def noIRMotion():
+    print("Item not yet thrown")
+    sleep(1)
+    
+def noPIRMotion():
+    print("No motion detected")
+    sleep(1)
+    
+    
+def motionPIRDetected():
+    print("Motion detected")
+    LCDDisplay("Bins No","is opening")
+    servoOpen()
+    while True:
+        if irSensor.value == 0:
+            motionIRDetected()
+            break
+        else:
+            noIRMotion()
+    LCDDisplay("Bins No","is closing")
+    servoClose()
+    sleep(4)
+    lcd1602.clear()
+    distance = distanceMeasure()
+    
+    
+def PIRLoop():
+    while True:
+        if pirSensor.value == 1:
+            motionPIRDetected()
+        else:
+            noPIRMotion()
+    
+# Starting the program
+if __name__ == '__main__':
+    print ('Program is starting ... ')
+    try:
+        LCDDisplay("Welcome","Press button")
+        sleep(3)
+        remainDepth = distanceMeasure()
+        setColor(remainDepth)
+        print(f"Empty: {binDepth} so Half:{halfEmpty} and Nearly full: {nearFull}")
+        LCDDisplay("Press button to","throw the item")
+        sleep(3)
+        PIRLoop()
+    except KeyboardInterrupt:
+        lcd1602.clear()
+        servoClose()
+        sensor.close()
+        LCDDisplay("Ending program")
+        sleep(3)
+        lcd1602.clear()
+        led.color = (0, 0, 0)  # off
+
 irSensor = DigitalInputDevice(12)
 
 # Setting details for Distance Sensor
@@ -20,7 +83,6 @@ sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
 binDepth = 23
 halfEmpty = 23/2
 nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
-
 
 # Setting details for Servo Motor
 servoGPIO = 23
@@ -63,26 +125,15 @@ def distanceMeasure():
     
 def setColor(rDepth):
     
-    """ code taken from https://gpiozero.readthedocs.io/en/stable/recipes.html#full-color-led"""
+    if rDepth <= nearFull:
+        led.color = (1,0,0)
     
-    led.red = 1  # full red
-    sleep(1)
-    led.red = 0.5  # half red
-    sleep(1)
+    elif rDepth <= halfEmpty and rDepth > nearFull:
+        led.color = (1,1,0)
+    
+    elif rDepth > halfEmpty:
+        led.color = (0,1,0)
 
-    led.color = (0, 1, 0)  # full green
-    sleep(1)
-    led.color = (1, 0, 1)  # magenta
-    sleep(1)
-    led.color = (1, 1, 0)  # yellow
-    sleep(1)
-    led.color = (0, 1, 1)  # cyan
-    sleep(1)
-    led.color = (1, 1, 1)  # white
-    sleep(1)
-
-    led.color = (0, 0, 0)  # off
-    sleep(1)
     
 def motionIRDetected():
     print("Item thrown")
@@ -112,6 +163,7 @@ def motionPIRDetected():
     sleep(4)
     lcd1602.clear()
     distance = distanceMeasure()
+    setColor(distance)
     
     
 def PIRLoop():
