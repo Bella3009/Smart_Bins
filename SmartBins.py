@@ -4,6 +4,7 @@ from gpiozero import MotionSensor
 from gpiozero import AngularServo
 from gpiozero import DigitalInputDevice
 from gpiozero import DistanceSensor
+from gpiozero import RGBLED
 from signal import pause
 from time import sleep
 
@@ -25,6 +26,11 @@ maxPW = (2.5+myCorrection)/1000
 minPW = (0.5-myCorrection)/1000
 servo = AngularServo(servoGPIO,initial_angle=0,min_angle=0, max_angle=180,min_pulse_width=minPW,max_pulse_width=maxPW)
 
+# Setting details for RGB LED
+rLED = 26
+gLED = 19
+bLED = 13
+led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
 
 def LCDDisplay(Msg1,Msg2=""):
     lcd1602.init_lcd()
@@ -49,6 +55,28 @@ def distanceMeasure():
     distance = sensor.distance * 100
     distance = round(distance, 2)
     return distance
+    
+def setColor():
+    """ code taken from https://gpiozero.readthedocs.io/en/stable/recipes.html#full-color-led"""
+    
+    led.red = 1  # full red
+    sleep(1)
+    led.red = 0.5  # half red
+    sleep(1)
+
+    led.color = (0, 1, 0)  # full green
+    sleep(1)
+    led.color = (1, 0, 1)  # magenta
+    sleep(1)
+    led.color = (1, 1, 0)  # yellow
+    sleep(1)
+    led.color = (0, 1, 1)  # cyan
+    sleep(1)
+    led.color = (1, 1, 1)  # white
+    sleep(1)
+
+    led.color = (0, 0, 0)  # off
+    sleep(1)
     
 def motionIRDetected():
     print("Item thrown")
@@ -93,8 +121,9 @@ if __name__ == '__main__':
     try:
         LCDDisplay("Welcome","Press button")
         sleep(3)
-        distanceLoop()
-        LCDDisplay("Press button to","throw the next item")
+        setColor()
+        distanceMeasure()
+        LCDDisplay("Press button to","throw the item")
         sleep(3)
         PIRLoop()
     except KeyboardInterrupt:
@@ -104,3 +133,4 @@ if __name__ == '__main__':
         LCDDisplay("Ending program")
         sleep(3)
         lcd1602.clear()
+        led.color = (0, 0, 0)  # off
