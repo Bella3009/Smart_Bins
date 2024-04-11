@@ -1,4 +1,5 @@
 import smbus
+from pygame import mixer
 from LCD1602 import CharLCD1602
 from gpiozero import MotionSensor
 from gpiozero import AngularServo
@@ -14,6 +15,7 @@ pirSensor = MotionSensor(18)
 lcd1602 = CharLCD1602()
 irSensor = DigitalInputDevice(12)
 button = Button(20)
+mixer.init() # Speaker setting
 
 # Setting details for Distance Sensor
 trigPin = 27
@@ -77,7 +79,14 @@ def setColor(rDepth):
     elif rDepth > halfEmpty:
         led.color = (0,1,0)
 
-    
+def info(audioName):
+    mixer.music.stop()
+    mixer.music.set_volume(1.0)
+    mixer.music.load(audioName)
+    mixer.music.play()
+    while mixer.music.get_busy() == True:
+        continue
+
 def motionIRDetected():
     print("Item thrown")
     sleep(1)
@@ -90,7 +99,6 @@ def noPIRMotion():
     print("No motion detected")
     sleep(1)
     
-    
 def motionPIRDetected():
     print("Motion detected")
     while True:
@@ -100,6 +108,7 @@ def motionPIRDetected():
         else:
             print("Button is pressed, program continue")
             LCDDisplay("Bins No","is opening")
+            info("Bin1Open.mp3")
             servoOpen()
             while True:
                 if irSensor.value == 0:
@@ -108,6 +117,7 @@ def motionPIRDetected():
                 else:
                     noIRMotion()
             LCDDisplay("Bins No","is closing")
+            info("Bin1Close.mp3")
             servoClose()
             sleep(4)
             lcd1602.clear()
@@ -127,10 +137,13 @@ if __name__ == '__main__':
     print ('Program is starting ... ')
     try:
         LCDDisplay("Welcome","Press button")
+        info("Welcome.mp3")
+        sleep(3)
         remainDepth = distanceMeasure()
         setColor(remainDepth)
         sleep(3)
         LCDDisplay("Press button to","throw the item")
+        info("PressButton.mp3")
         PIRLoop()
     except KeyboardInterrupt:
         lcd1602.clear()
