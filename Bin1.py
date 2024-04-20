@@ -1,8 +1,12 @@
 from time import sleep
 from gpiozero import AngularServo
 from LCDDisplay import displayMsg
+from gpiozero import DigitalInputDevice
 
 binNo = "1"
+
+irSensor = DigitalInputDevice(4)
+
 # Setting details for Servo Motor
 servoGPIO = 14
 SERVO_DELAY_SEC = 0.001
@@ -27,6 +31,14 @@ def servoClose(endProg=False):
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
 
+def motionIRDetected():
+    print("Item thrown")
+    sleep(1)
+    
+def noIRMotion():
+    print("Item not yet thrown")
+    sleep(1)
+    
 if __name__ == '__main__':
     print('Program is starting ... ')
     try:
