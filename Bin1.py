@@ -1,6 +1,8 @@
 from time import sleep
 from gpiozero import AngularServo
+from LCDDisplay import displayMsg
 
+binNo = "1"
 # Setting details for Servo Motor
 servoGPIO = 14
 SERVO_DELAY_SEC = 0.001
@@ -10,13 +12,16 @@ minPW = (0.5-myCorrection)/1000
 servo = AngularServo(servoGPIO,initial_angle=0,min_angle=0, max_angle=180,min_pulse_width=minPW,max_pulse_width=maxPW)
 
 def servoOpen():
-    for angle in range(0, 181, 1):   # make servo rotate from 0 to 180 deg
+    # For this servo the negative angle makes the most confortable way to open the bin
+    displayMsg("Bin" + binNo + "Open","Bins "+ binNo,"is opening")
+    for angle in range(180, -1, -1):   # make servo rotate from 0 to 180 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
 
 def servoClose():
-    for angle in range(180, -1, -1): # make servo rotate from 180 to 0 deg
+    displayMsg("Bin" + binNo + "Close","Bins "+ binNo,"is closing")
+    for angle in range(0, 181, 1): # make servo rotate from 180 to 0 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
@@ -25,6 +30,7 @@ if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         servoOpen()
-
+        sleep(3)
+        servoClose()
     except KeyboardInterrupt:
         servoClose()
