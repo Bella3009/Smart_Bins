@@ -29,14 +29,14 @@ def noPIRMotion():
 def motionPIRDetected():
     print("Motion detected")
     sleep(2)
-    display.DisplayMsg("Show item", "to recognise")
+    display.displayMsg("PressButton","Show item", "to recognise")
     captureImage()
     sleep(2.5)
-    display.DisplayMsg("Item Detected")
+    display.displayMsg("Bin1Open","Item Detected")
     
     
 def PIRLoop():
-    display.DisplayMsg("Welcome to","Smart bins")
+    display.displayMsg("Welcome","Welcome to","Smart bins")
     sleep(3)
     while True:
         if pirSensor.value == 1:
@@ -51,6 +51,6 @@ if __name__ == '__main__':
         PIRLoop()
     except KeyboardInterrupt:
         print("Ending program")
-        display.DisplayMsg("Ending program")
+        display.displayMsg("Welcome","Ending program") # Audio will be changed later since the Ending program audio is still not done
         sleep(3)
         display.lcd1602.clear()
