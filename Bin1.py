@@ -19,8 +19,9 @@ def servoOpen():
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
 
-def servoClose():
-    displayMsg("Bin" + binNo + "Close","Bins "+ binNo,"is closing")
+def servoClose(endProg=False):
+    if endProg == False: # With this condition, the message will not appear when the program ends
+        displayMsg("Bin" + binNo + "Close","Bins "+ binNo,"is closing")
     for angle in range(0, 181, 1): # make servo rotate from 180 to 0 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
