@@ -2,6 +2,7 @@ from time import sleep
 import cv2
 from gpiozero import MotionSensor
 import LCDDisplay as display
+import Bin1 as b1
 
 imgPath = "/home/bellagauci/Documents/SmartBin/Image/"
 
@@ -29,11 +30,14 @@ def noPIRMotion():
 def motionPIRDetected():
     print("Motion detected")
     sleep(2)
-    display.displayMsg("PressButton","Show item", "to recognise")
+    display.displayMsg("PressButton","Show item", "to identify it")
     captureImage()
     sleep(2.5)
-    display.displayMsg("Bin1Open","Item Detected")
-    
+    display.displayMsg("Bin1Open","Item Detected") # Need to change audio file when audio for item detected is done
+    sleep(1.5)
+    b1.servoOpen()
+    sleep(5)
+    b1.servoClose()
     
 def PIRLoop():
     display.displayMsg("Welcome","Welcome to","Smart bins")
@@ -48,9 +52,11 @@ def PIRLoop():
 if __name__ == '__main__':
     print('Program is starting ... ')
     try:
+        b1.servoClose(True) # This is because the first time the program starts the servo goes to position 0 angle while for the project I need it to start at 180
         PIRLoop()
     except KeyboardInterrupt:
         print("Ending program")
+        b1.servoClose(True)
         display.displayMsg("Welcome","Ending program") # Audio will be changed later since the Ending program audio is still not done
         sleep(3)
         display.lcd1602.clear()
