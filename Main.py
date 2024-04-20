@@ -36,8 +36,15 @@ def motionPIRDetected():
     display.displayMsg("Bin1Open","Item Detected") # Need to change audio file when audio for item detected is done
     sleep(1.5)
     b1.servoOpen()
+    while True:
+        if b1.irSensor.value == 0:
+            b1.motionIRDetected()
+            break
+        else:
+            b1.noIRMotion()
     sleep(5)
     b1.servoClose()
+    sleep(1.5)
     
 def PIRLoop():
     display.displayMsg("Welcome","Welcome to","Smart bins")
@@ -45,6 +52,7 @@ def PIRLoop():
     while True:
         if pirSensor.value == 1:
             motionPIRDetected()
+            display.displayMsg("PressButton","Show item", "to identify it")
             sleep(5)
         else:
             noPIRMotion()
