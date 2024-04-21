@@ -66,7 +66,7 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Ending program")
         b1.servoClose(True)
-        led.color = (0, 0, 0)  # off
+        b1.led.color = (0, 0, 0)  # off
         display.displayMsg("Welcome","Ending program") # Audio will be changed later since the Ending program audio is still not done
         sleep(3)
         display.lcd1602.clear()
