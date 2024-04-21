@@ -2,6 +2,7 @@ from time import sleep
 from gpiozero import AngularServo
 from LCDDisplay import displayMsg
 from gpiozero import DigitalInputDevice
+from gpiozero import DistanceSensor
 
 binNo = "1"
 
@@ -14,6 +15,14 @@ myCorrection = 0.0
 maxPW = (2.5+myCorrection)/1000
 minPW = (0.5-myCorrection)/1000
 servo = AngularServo(servoGPIO,initial_angle=0,min_angle=0, max_angle=180,min_pulse_width=minPW,max_pulse_width=maxPW)
+
+# Setting details for Distance Sensor
+trigPin = 17
+echoPin = 12
+sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
+binDepth = 20
+halfEmpty = 23/2
+nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
 
 def servoOpen():
     # For this servo the negative angle makes the most confortable way to open the bin
@@ -38,12 +47,12 @@ def motionIRDetected():
 def noIRMotion():
     print("Item not yet thrown")
     sleep(1)
+
+def distanceMeasure():
+    distance = sensor.distance * 100
+    distance = round(distance, 2)
+    print(distance)
     
-if __name__ == '__main__':
-    print('Program is starting ... ')
-    try:
-        servoOpen()
-        sleep(3)
-        servoClose()
-    except KeyboardInterrupt:
-        servoClose()
+    
+if __name__ == "__main__":
+    distanceMeasure()
