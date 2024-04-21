@@ -3,6 +3,7 @@ from gpiozero import AngularServo
 from LCDDisplay import displayMsg
 from gpiozero import DigitalInputDevice
 from gpiozero import DistanceSensor
+from gpiozero import RGBLED
 
 binNo = "1"
 
@@ -23,6 +24,12 @@ sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
 binDepth = 20
 halfEmpty = 23/2
 nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
+
+# Setting details for RGB LED
+rLED = 7
+gLED = 8
+bLED = 25
+led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
 
 def servoOpen():
     # For this servo the negative angle makes the most confortable way to open the bin
@@ -48,11 +55,25 @@ def noIRMotion():
     print("Item not yet thrown")
     sleep(1)
 
+def setColor(rDepth):
+    if rDepth <= nearFull:
+        led.color = (1,0,0)
+        displayMsg("PressButton","Bin " + binNo +" is", "nearly full") # Audio needs to be changed once audio file is done
+        sleep(2)
+    
+    elif rDepth <= halfEmpty and rDepth > nearFull:
+        led.color = (1,1,0)
+        displayMsg("PressButton","Bin " + binNo +" is","half full") # Audio needs to be changed once audio file is done
+        sleep(2)
+    
+    elif rDepth > halfEmpty:
+        led.color = (0,1,0)
+
 def distanceMeasure():
     distance = sensor.distance * 100
     distance = round(distance, 2)
     print(distance)
-    
+    setColor(distance)
     
 if __name__ == "__main__":
     distanceMeasure()
