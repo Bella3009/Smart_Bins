@@ -42,9 +42,9 @@ def motionPIRDetected():
             break
         else:
             b1.noIRMotion()
-    sleep(5)
-    b1.servoClose()
     sleep(1.5)
+    b1.servoClose()
+    b1.distanceMeasure()
     
 def PIRLoop():
     display.displayMsg("Welcome","Welcome to","Smart bins")
@@ -61,6 +61,7 @@ if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         b1.servoClose(True) # This is because the first time the program starts the servo goes to position 0 angle while for the project I need it to start at 180
+        b1.distanceMeasure()
         PIRLoop()
     except KeyboardInterrupt:
         print("Ending program")
