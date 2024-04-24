@@ -3,6 +3,8 @@ import cv2
 from gpiozero import MotionSensor
 import LCDDisplay as display
 import Bin1 as b1
+import Bin2 as b2
+import Bin3 as b3
 
 imgPath = "/home/bellagauci/Documents/SmartBin/Image/"
 
@@ -61,12 +63,20 @@ if __name__ == '__main__':
     print('Program is starting ... ')
     try:
         b1.servoClose(True) # This is because the first time the program starts the servo goes to position 0 angle while for the project I need it to start at 180
+        b2.servoClose(True) # This is because the first time the program starts the servo goes to position 0 angle while for the project I need it to start at 180
+        b3.servoClose(True) # This is because the first time the program starts the servo goes to position 0 angle while for the project I need it to start at 180
         b1.distanceMeasure()
+        b2.distanceMeasure()
+        b3.distanceMeasure()
         PIRLoop()
     except KeyboardInterrupt:
         print("Ending program")
         b1.servoClose(True)
+        b2.servoClose(True)
+        b3.servoClose(True)
         b1.led.color = (0, 0, 0)  # off
+        b2.led.color = (0, 0, 0)  # off
+        b3.led.color = (0, 0, 0)  # off
         display.displayMsg("Welcome","Ending program") # Audio will be changed later since the Ending program audio is still not done
         sleep(3)
         display.lcd1602.clear()
