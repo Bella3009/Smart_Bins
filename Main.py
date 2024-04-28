@@ -32,7 +32,7 @@ def noPIRMotion():
 def motionPIRDetected():
     print("Motion detected")
     sleep(2)
-    display.displayMsg("PressButton","Show item", "to identify it")
+    display.displayMsg("ShowItem","Show item", "to identify it")
     captureImage()
     sleep(2.5)
     display.displayMsg("Bin1Open","Item Detected") # Need to change audio file when audio for item detected is done
@@ -54,7 +54,6 @@ def PIRLoop():
     while True:
         if pirSensor.value == 1:
             motionPIRDetected()
-            display.displayMsg("PressButton","Show item", "to identify it")
             sleep(5)
         else:
             noPIRMotion()
