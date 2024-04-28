@@ -35,7 +35,7 @@ def motionPIRDetected():
     display.displayMsg("ShowItem","Show item", "to identify it")
     captureImage()
     sleep(2.5)
-    display.displayMsg("ItemDetected","Item Detected") # Need to change audio file when audio for item detected is done
+    display.displayMsg("ItemDetected","Item Detected")
     sleep(1.5)
     b1.servoOpen()
     while True:
@@ -76,6 +76,6 @@ if __name__ == '__main__':
         b1.led.color = (0, 0, 0)  # off
         b2.led.color = (0, 0, 0)  # off
         b3.led.color = (0, 0, 0)  # off
-        display.displayMsg("Welcome","Ending program") # Audio will be changed later since the Ending program audio is still not done
+        display.displayMsg("Ending","Ending program", "Thank you") # Audio will be changed later since the Ending program audio is still not done
         sleep(3)
         display.lcd1602.clear()
