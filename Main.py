@@ -35,7 +35,7 @@ def motionPIRDetected():
     display.displayMsg("ShowItem","Show item", "to identify it")
     captureImage()
     sleep(2.5)
-    display.displayMsg("Bin1Open","Item Detected") # Need to change audio file when audio for item detected is done
+    display.displayMsg("ItemDetected","Item Detected") # Need to change audio file when audio for item detected is done
     sleep(1.5)
     b1.servoOpen()
     while True:
