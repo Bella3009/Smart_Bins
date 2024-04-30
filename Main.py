@@ -8,10 +8,10 @@ import Bin3 as b3
 
 imgPath = "/home/bellagauci/Documents/SmartBin/Image/"
 
-camera = cv2.VideoCapture(0)
 pirSensor = MotionSensor(10)
 
 def captureImage():
+    camera = cv2.VideoCapture(0)
     print("Capturing image...")
     ret, frame = camera.read()  # Read a frame from the camera
     if ret:
@@ -76,6 +76,6 @@ if __name__ == '__main__':
         b1.led.color = (0, 0, 0)  # off
         b2.led.color = (0, 0, 0)  # off
         b3.led.color = (0, 0, 0)  # off
-        display.displayMsg("Ending","Ending program", "Thank you") # Audio will be changed later since the Ending program audio is still not done
+        display.displayMsg("Ending","Ending program", "Thank you")
         sleep(3)
         display.lcd1602.clear()
