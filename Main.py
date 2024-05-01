@@ -6,7 +6,7 @@ import Bin1 as b1
 import Bin2 as b2
 import Bin3 as b3
 
-imgPath = "/home/bellagauci/Documents/SmartBin/Image/"
+imgPath = "Image/"
 
 pirSensor = MotionSensor(10)
 
@@ -18,7 +18,6 @@ def captureImage():
         cv2.imwrite(imgPath+"image.jpg", frame)  # Save the frame as an image
         print("Image captured successfully!")
         image = cv2.imread(imgPath+"image.jpg")
-        image = cv2.rotate(image, cv2.ROTATE_180)
         cv2.imwrite(imgPath+"image.jpg", image)
         return True
     else:

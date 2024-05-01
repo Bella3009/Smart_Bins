@@ -4,7 +4,7 @@ project = rf.workspace().project("smartbinwaste")
 model = project.version(2).model
 
 # infer on a local image
-print(model.predict("image.jpg", confidence=60, overlap=30).json())
+print(model.predict("Image/image.jpg", confidence=60, overlap=30).json())
 
 # visualize your prediction
 # model.predict("your_image.jpg", confidence=40, overlap=30).save("prediction.jpg")
