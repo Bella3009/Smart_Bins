@@ -18,9 +18,21 @@ def binStatus(value):
 
     return status
 
-bin1Status = binStatus(4) # Temporary value to test the program
-bin2Status = binStatus(10) # Temporary value to test the program
-bin3Status = binStatus(15) # Temporary value to test the program
+with open("Data/Measure1.txt","r") as file:
+    reading1 = file.read()
+
+with open("Data/Measure2.txt","r") as file:
+    reading2 = file.read()
+
+with open("Data/Measure3.txt","r") as file:
+    reading3 = file.read()
+
+print(float(reading1))
+print(float(reading2))
+print(float(reading3))
+bin1Status = binStatus(float(reading1)) 
+bin2Status = binStatus(float(reading2)) 
+bin3Status = binStatus(float(reading3))
 
 window = Tk() 
 window.title("Smart Bins Dashboard") # Set the title of the window
