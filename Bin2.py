@@ -33,7 +33,7 @@ led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
 
 def servoOpen():
     # For this servo the negative angle makes the most confortable way to open the bin
-    displayMsg("Bin" + binNo + "Open","Bins "+ binNo,"is opening")
+    displayMsg("Bin2Open","Bin" + binNo + "Open","Bins "+ binNo,"is opening")
     for angle in range(180, -1, -1):   # make servo rotate from 0 to 180 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
@@ -41,7 +41,7 @@ def servoOpen():
 
 def servoClose(endProg=False):
     if endProg == False: # With this condition, the message will not appear when the program ends
-        displayMsg("Bin" + binNo + "Close","Bins "+ binNo,"is closing")
+        displayMsg("Bin2Close", "Bin" + binNo + "Close","Bins "+ binNo,"is closing")
     for angle in range(0, 181, 1): # make servo rotate from 180 to 0 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
@@ -58,12 +58,12 @@ def noIRMotion():
 def setColor(rDepth):
     if rDepth <= nearFull:
         led.color = (1,0,0)
-        displayMsg("PressButton","Bin " + binNo +" is", "nearly full") # Audio needs to be changed once audio file is done
+        displayMsg("Full","Bin " + binNo +" is", "nearly full")
         sleep(2)
     
     elif rDepth <= halfEmpty and rDepth > nearFull:
         led.color = (1,1,0)
-        displayMsg("PressButton","Bin " + binNo +" is","half full") # Audio needs to be changed once audio file is done
+        displayMsg("Half","Bin " + binNo +" is","half full")
         sleep(2)
     
     elif rDepth > halfEmpty:
