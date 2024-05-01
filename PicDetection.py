@@ -20,8 +20,6 @@ def captureImage():
         print("Failed to capture image.")
         return False
 
-
-
 def itemIdentification():
     while True:
         result, img = captureImage()
