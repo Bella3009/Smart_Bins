@@ -1,28 +1,12 @@
 from time import sleep
-import cv2
 from gpiozero import MotionSensor
 import LCDDisplay as display
 import Bin1 as b1
 import Bin2 as b2
 import Bin3 as b3
-
-imgPath = "Image/"
+import PicDetection as pd
 
 pirSensor = MotionSensor(10)
-
-def captureImage():
-    camera = cv2.VideoCapture(0)
-    print("Capturing image...")
-    ret, frame = camera.read()  # Read a frame from the camera
-    if ret:
-        cv2.imwrite(imgPath+"image.jpg", frame)  # Save the frame as an image
-        print("Image captured successfully!")
-        image = cv2.imread(imgPath+"image.jpg")
-        cv2.imwrite(imgPath+"image.jpg", image)
-        return True
-    else:
-        print("Failed to capture image.")
-        return False
 
 def noPIRMotion():
     print("No motion detected")
@@ -32,7 +16,7 @@ def motionPIRDetected():
     print("Motion detected")
     sleep(2)
     display.displayMsg("ShowItem","Show item", "to identify it")
-    captureImage()
+    pd.captureImage()
     sleep(2.5)
     display.displayMsg("ItemDetected","Item Detected")
     sleep(1.5)

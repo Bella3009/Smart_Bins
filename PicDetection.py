@@ -1,13 +1,42 @@
+import cv2
 from roboflow import Roboflow
 rf = Roboflow(api_key="Q9IcsfJCMLzQzVoymuKT")
 project = rf.workspace().project("smartbinwaste")
 model = project.version(2).model
 
-# infer on a local image
-print(model.predict("Image/image.jpg", confidence=60, overlap=30).json())
+imgPath = "Image/"
 
-# visualize your prediction
-# model.predict("your_image.jpg", confidence=40, overlap=30).save("prediction.jpg")
+def captureImage():
+    camera = cv2.VideoCapture(0)
+    print("Capturing image...")
+    ret, frame = camera.read()  # Read a frame from the camera
+    if ret:
+        cv2.imwrite(imgPath+"image1.jpg", frame)  # Save the frame as an image
+        print("Image captured successfully!")
+        image = cv2.imread(imgPath+"image1.jpg")
+        cv2.imwrite(imgPath+"image1.jpg", image)
+        return True, image
+    else:
+        print("Failed to capture image.")
+        return False
 
-# infer on an image hosted elsewhere
-# print(model.predict("URL_OF_YOUR_IMAGE", hosted=True, confidence=40, overlap=30).json())
+
+
+def itemIdentification():
+    while True:
+        result, img = captureImage()
+        if result:
+            data = model.predict(img, overlap=30).json()
+
+            predictions = data['predictions']
+            for prediction in predictions:
+                confidence = prediction['confidence']
+                obj_class = prediction['class']
+            
+                if confidence >= 40:
+                    print("Class: " + obj_class)
+                    print("Confidence: " + str(confidence * 100))
+                else:
+                    continue
+
+itemIdentification()
