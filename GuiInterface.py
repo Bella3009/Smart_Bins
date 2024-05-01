@@ -61,15 +61,16 @@ info2 = Label(window,text=f"Percentage full: {percent2}%")
 bin3Title = Label(window, text="Recycle", width=25)
 bin3Label = Label(window, text="Bin 3", width=25)
 info3 = Label(window,text=f"Percentage full: {percent3}%")
+exitBtn = Button(window,text="Exit Program", command=window.quit)
 
 # Image selection and display 
 img1 = ImageTk.PhotoImage(Image.open(bin1Status))
 img2 = ImageTk.PhotoImage(Image.open(bin2Status))
 img3 = ImageTk.PhotoImage(Image.open(bin3Status))
 
-status1 = Label(image=img1,width=100)
-status2 = Label(image=img2,width=100)
-status3 = Label(image=img3,width=100)
+status1 = Label(image=img1,width=160, height=350)
+status2 = Label(image=img2,width=160, height=350)
+status3 = Label(image=img3,width=160, height=350)
 
 # Place them in the window using the grid method
 title.grid(row=0,column=0,columnspan=3)
@@ -85,5 +86,6 @@ status3.grid(row=3,column=2)
 info1.grid(row=4,column=0)
 info2.grid(row=4,column=1)
 info3.grid(row=4,column=2)
+exitBtn.grid(row=5,column=1)
 
 window.mainloop()
