@@ -3,8 +3,11 @@ from tkinter import *
 window = Tk() 
 window.title("Smart Bins Dashboard") # Set the title of the window
 
-# Set the widgets
+# Set the window info
 title = Label(window, text="Smart Bins")
+window.iconbitmap("SmartBinIcon.ico")
+
+# Set the widgets
 bin1Title = Label(window, text="Organic", width=25)
 bin1Label = Label(window, text="Bin 1", width=25)
 bin2Title = Label(window, text="Mixed", width=25)
