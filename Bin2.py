@@ -74,6 +74,8 @@ def distanceMeasure():
     distance = round(distance, 2)
     print(distance)
     setColor(distance)
+    with open("Data/Measure2.txt","w") as file:
+        file.write(str(distance))
     
 if __name__ == "__main__":
     servoOpen()
