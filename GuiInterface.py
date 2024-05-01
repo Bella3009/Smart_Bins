@@ -22,9 +22,10 @@ def binStatus(value):
 def calcPercentage(number):
     number = float(number)
     value = number/binDepth
-    percent = value * 100
-    percent = round(percent,2)
-    print(percent)
+    empty = value * 100
+    fullness = 100 - empty
+    fullness = round(fullness,2)
+    print(fullness)
 
 with open("Data/Measure1.txt","r") as file:
     reading1 = file.read()
