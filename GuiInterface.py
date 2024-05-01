@@ -25,7 +25,7 @@ def calcPercentage(number):
     empty = value * 100
     fullness = 100 - empty
     fullness = round(fullness,2)
-    print(fullness)
+    return fullness
 
 with open("Data/Measure1.txt","r") as file:
     reading1 = file.read()
@@ -36,13 +36,13 @@ with open("Data/Measure2.txt","r") as file:
 with open("Data/Measure3.txt","r") as file:
     reading3 = file.read()
 
-calcPercentage(reading1)
-calcPercentage(reading2)
-calcPercentage(reading3)
-
+# Calculation for the GUI
 bin1Status = binStatus(float(reading1)) 
 bin2Status = binStatus(float(reading2)) 
 bin3Status = binStatus(float(reading3))
+percent1 = calcPercentage(reading1)
+percent2 = calcPercentage(reading2)
+percent3 = calcPercentage(reading3)
 
 window = Tk() 
 window.title("Smart Bins Dashboard") # Set the title of the window
@@ -54,10 +54,13 @@ window.iconbitmap("Image/SmartBinIcon.ico")
 # Set the widgets
 bin1Title = Label(window, text="Organic", width=25)
 bin1Label = Label(window, text="Bin 1", width=25)
+info1 = Label(window,text=f"Percentage full: {percent1}%")
 bin2Title = Label(window, text="Mixed", width=25)
 bin2Label = Label(window, text="Bin2", width=25)
+info2 = Label(window,text=f"Percentage full: {percent2}%")
 bin3Title = Label(window, text="Recycle", width=25)
 bin3Label = Label(window, text="Bin 3", width=25)
+info3 = Label(window,text=f"Percentage full: {percent3}%")
 
 # Image selection and display 
 img1 = ImageTk.PhotoImage(Image.open(bin1Status))
@@ -79,5 +82,8 @@ bin3Label.grid(row=2,column=2)
 status1.grid(row=3,column=0)
 status2.grid(row=3,column=1)
 status3.grid(row=3,column=2)
+info1.grid(row=4,column=0)
+info2.grid(row=4,column=1)
+info3.grid(row=4,column=2)
 
 window.mainloop()
