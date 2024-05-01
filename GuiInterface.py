@@ -5,16 +5,16 @@ def binStatus(value):
     binDepth = 23
     halfEmpty = binDepth/2 # 11.5
     nearFull = binDepth/4 # 5.75
-    status = ""
+    status = "Image/"
 
     if value <= nearFull:
-        status = "FullBin.png"
+        status += "FullBin.png"
     
     elif value <= halfEmpty and value > nearFull:
-        status = "HalfBin.png"
+        status += "HalfBin.png"
     
     elif value > halfEmpty:
-        status = "EmptyBin.png"
+        status += "EmptyBin.png"
 
     return status
 
@@ -27,7 +27,7 @@ window.title("Smart Bins Dashboard") # Set the title of the window
 
 # Set the window info
 title = Label(window, text="Smart Bins")
-window.iconbitmap("SmartBinIcon.ico")
+window.iconbitmap("Image/SmartBinIcon.ico")
 
 # Set the widgets
 bin1Title = Label(window, text="Organic", width=25)
