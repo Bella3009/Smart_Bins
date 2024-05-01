@@ -22,8 +22,8 @@ trigPin = 23
 echoPin = 20
 sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
 binDepth = 20
-halfEmpty = 23/2
-nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
+halfEmpty = binDepth/2
+nearFull = binDepth/4  # /4 because 4 = 25% meaning that only 25% of the bin is empty
 
 # Setting details for RGB LED
 rLED = 27

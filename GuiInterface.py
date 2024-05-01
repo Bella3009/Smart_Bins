@@ -1,4 +1,19 @@
 from tkinter import *
+from PIL import ImageTk, Image
+
+def binStatus(value):
+    binDepth = 23
+    halfEmpty = binDepth/2
+    nearFull = binDepth/4
+
+    if value <= nearFull:
+        return "FullBin.png"
+    
+    elif value <= halfEmpty and value > nearFull:
+        return "HalfBin.png"
+    
+    elif value > halfEmpty:
+        return "EmptyBin.png"
 
 window = Tk() 
 window.title("Smart Bins Dashboard") # Set the title of the window
