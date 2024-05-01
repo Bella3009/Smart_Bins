@@ -3,17 +3,24 @@ from PIL import ImageTk, Image
 
 def binStatus(value):
     binDepth = 23
-    halfEmpty = binDepth/2
-    nearFull = binDepth/4
+    halfEmpty = binDepth/2 # 11.5
+    nearFull = binDepth/4 # 5.75
+    status = ""
 
     if value <= nearFull:
-        return "FullBin.png"
+        status = "FullBin.png"
     
     elif value <= halfEmpty and value > nearFull:
-        return "HalfBin.png"
+        status = "HalfBin.png"
     
     elif value > halfEmpty:
-        return "EmptyBin.png"
+        status = "EmptyBin.png"
+
+    return status
+
+bin1Status = binStatus(4) # Temporary value to test the program
+bin2Status = binStatus(10) # Temporary value to test the program
+bin3Status = binStatus(15) # Temporary value to test the program
 
 window = Tk() 
 window.title("Smart Bins Dashboard") # Set the title of the window
@@ -29,6 +36,13 @@ bin2Title = Label(window, text="Mixed", width=25)
 bin2Label = Label(window, text="Bin2", width=25)
 bin3Title = Label(window, text="Recycle", width=25)
 bin3Label = Label(window, text="Bin 3", width=25)
+img1 = ImageTk.PhotoImage(Image.open(bin1Status))
+img2 = ImageTk.PhotoImage(Image.open(bin2Status))
+img3 = ImageTk.PhotoImage(Image.open(bin3Status))
+
+status1 = Label(image=img1,width=100)
+status2 = Label(image=img2,width=100)
+status3 = Label(image=img3,width=100)
 
 # Place them in the window using the grid method
 title.grid(row=0,column=0,columnspan=3)
@@ -38,5 +52,8 @@ bin3Title.grid(row=1,column=2)
 bin1Label.grid(row=2,column=0)
 bin2Label.grid(row=2,column=1)
 bin3Label.grid(row=2,column=2)
+status1.grid(row=3,column=0)
+status2.grid(row=3,column=1)
+status3.grid(row=3,column=2)
 
 window.mainloop()
