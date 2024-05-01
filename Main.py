@@ -16,7 +16,7 @@ def motionPIRDetected():
     print("Motion detected")
     sleep(2)
     display.displayMsg("ShowItem","Show item", "to identify it")
-    pd.captureImage()
+    object = pd.captureImage() # itemIdentification function continues in loop therefore to change at later date once more images are added
     sleep(2.5)
     display.displayMsg("ItemDetected","Item Detected")
     sleep(1.5)

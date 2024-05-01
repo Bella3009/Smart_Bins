@@ -34,6 +34,7 @@ def itemIdentification():
                 if confidence >= 40:
                     print("Class: " + obj_class)
                     print("Confidence: " + str(confidence * 100))
+                    return obj_class
                 else:
                     continue
 
