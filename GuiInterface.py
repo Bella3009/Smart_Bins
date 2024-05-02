@@ -68,9 +68,9 @@ img1 = ImageTk.PhotoImage(Image.open(bin1Status))
 img2 = ImageTk.PhotoImage(Image.open(bin2Status))
 img3 = ImageTk.PhotoImage(Image.open(bin3Status))
 
-status1 = Label(image=img1,width=160, height=350)
-status2 = Label(image=img2,width=160, height=350)
-status3 = Label(image=img3,width=160, height=350)
+status1 = Label(image=img1,width=160, height=540)
+status2 = Label(image=img2,width=160, height=540)
+status3 = Label(image=img3,width=160, height=540)
 
 # Place them in the window using the grid method
 title.grid(row=0,column=0,columnspan=3)

@@ -24,7 +24,7 @@ def itemIdentification():
     while True:
         result, img = captureImage()
         if result:
-            data = model.predict(img, overlap=30).json()
+            data = model.predict(img, confidence=20, overlap=30).json()
 
             predictions = data['predictions']
             for prediction in predictions:
