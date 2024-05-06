@@ -16,32 +16,49 @@ def motionPIRDetected():
     print("Motion detected")
     sleep(2)
     display.displayMsg("ShowItem","Show item", "to identify it")
-    object = pd.captureImage() # itemIdentification function continues in loop therefore to change at later date once more images are added
+    object = pd.captureImage() # itemIdentification function continues in loop because confidence is not enough therefore to change at later date once more images are added
     object = 2 # Added just for now to test code until itemIdentification function identifies item properly
     sleep(2.5)
     display.displayMsg("ItemDetected","Item Detected")
     sleep(1.5)
 
     if object == 1:
-        print("Item goes in bin 1")
+        b1.servoOpen()
+        while True:
+            if b1.irSensor.value == 0:
+                b1.motionIRDetected()
+                break
+            else:
+                b1.noIRMotion()
+        sleep(1.5)
+        b1.servoClose()
+        b1.distanceMeasure()
+    
 
     elif object == 2:
-        print("Item goes in bin 2")
+        b2.servoOpen()
+        while True:
+            if b2.irSensor.value == 0:
+                b2.motionIRDetected()
+                break
+            else:
+                b2.noIRMotion()
+        sleep(1.5)
+        b2.servoClose()
+        b2.distanceMeasure()
 
     elif object == 3:
-        print("Item goes in bin 3")
+        b3.servoOpen()
+        while True:
+            if b3.irSensor.value == 0:
+                b3.motionIRDetected()
+                break
+            else:
+                b3.noIRMotion()
+        sleep(1.5)
+        b3.servoClose()
+        b3.distanceMeasure()
         
-    '''b1.servoOpen()
-    while True:
-        if b1.irSensor.value == 0:
-            b1.motionIRDetected()
-            break
-        else:
-            b1.noIRMotion()
-    sleep(1.5)
-    b1.servoClose()
-    b1.distanceMeasure()'''
-    
 def PIRLoop():
     display.displayMsg("Welcome","Welcome to","Smart bins")
     sleep(3)
