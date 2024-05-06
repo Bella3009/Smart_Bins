@@ -29,13 +29,13 @@ def itemIdentification():
             predictions = data['predictions']
             for prediction in predictions:
                 confidence = prediction['confidence']
-                obj_class = prediction['class']
+                object = prediction['class']
             
                 if confidence >= 40:
-                    print("Class: " + obj_class)
+                    print("Class: " + object)
                     print("Confidence: " + str(confidence * 100))
-                    return obj_class
+                    return object
                 else:
-                    continue
+                    print("Image captured show "+ object + " with " + str(confidence * 100) + "% Image to be taken again")
 
 itemIdentification()
