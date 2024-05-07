@@ -1,18 +1,15 @@
 from pushbullet import Pushbullet
+from datetime import datetime
 
-API_KEY = "o.6fv3JTsQ1Y2XPgr5XMWPcXLZueO93fcs"
+API_KEY = "o.6fv3JTsQ1Y2XPgr5XMWPcXLZueO93fc" # Key is changed to not save it publicaly
 
 filePath = "NotificationText/"
 
-mon = filePath + "0.txt"
-tue = filePath + "1.txt"
-wed = filePath + "2.txt"
-thu = filePath + "3.txt"
-fri = filePath + "4.txt"
-sat = filePath + "5.txt"
-sun = filePath + "6.txt"
+today = datetime.now()
+day = today.weekday()
+dayFile = filePath + str(day) + ".txt"
 
-with open(mon,"r") as file:
+with open(dayFile,"r") as file:
     content = file.read()
 
 pb = Pushbullet(API_KEY)
