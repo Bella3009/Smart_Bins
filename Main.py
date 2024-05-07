@@ -79,6 +79,7 @@ if __name__ == '__main__':
         b2.distanceMeasure()
         b3.distanceMeasure()
         PIRLoop()
+        
     except KeyboardInterrupt:
         print("Ending program")
         b1.servoClose(True)
