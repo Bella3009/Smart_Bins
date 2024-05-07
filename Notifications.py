@@ -1,3 +1,7 @@
+from pushbullet import Pushbullet
+
+API_KEY = "o.6fv3JTsQ1Y2XPgr5XMWPcXLZueO93fcs"
+
 filePath = "NotificationText/"
 
 mon = filePath + "0.txt"
@@ -11,4 +15,5 @@ sun = filePath + "6.txt"
 with open(mon,"r") as file:
     content = file.read()
 
-print(content)
+pb = Pushbullet(API_KEY)
+push = pb.push_note("Smart Bins Reminder", content)
