@@ -1,0 +1,1 @@
+Prepare the mixed garbage for tomorrow's collection.
