@@ -5,6 +5,11 @@ API_KEY = "o.eugg1BhvywYpKFvpbuG6MuX85gAqLBv0" # Key is changed to not save it p
 
 filePath = "NotificationText/"
 
+msg = ["Prepare the mixed garbage for tomorrow's collection.", "Prepare the organic garbage for tomorrow's collection.",
+       "Prepare the recycling garbage for tomorrow's collection.","Prepare the organic garbage for tomorrow's collection.",
+       "Prepare the mixed garbage for tomorrow's collection.", "Tomorrow there is no garbage to be collected.",
+       "Prepare the organic garbage for tomorrow's collection."]
+
 today = datetime.now()
 day = today.weekday()
 dayFile = filePath + str(day) + ".txt"
@@ -12,5 +17,7 @@ dayFile = filePath + str(day) + ".txt"
 with open(dayFile, "r") as file:
     content = file.read()
 
+msgNotification = msg[day]
+
 pb = Pushbullet(API_KEY)
-push = pb.push_note("Smart Bins Reminder", content)
+push = pb.push_note("Smart Bins Reminder", content + "/" + msgNotification)
