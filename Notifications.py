@@ -3,8 +3,6 @@ from datetime import datetime
 
 API_KEY = "o.eugg1BhvywYpKFvpbuG6MuX85gAqLBv0" # Key is changed to not save it publicaly
 
-filePath = "NotificationText/"
-
 msg = ["Prepare the mixed garbage for tomorrow's collection.", "Prepare the organic garbage for tomorrow's collection.",
        "Prepare the recycling garbage for tomorrow's collection.","Prepare the organic garbage for tomorrow's collection.",
        "Prepare the mixed garbage for tomorrow's collection.", "Tomorrow there is no garbage to be collected.",
@@ -12,12 +10,8 @@ msg = ["Prepare the mixed garbage for tomorrow's collection.", "Prepare the orga
 
 today = datetime.now()
 day = today.weekday()
-dayFile = filePath + str(day) + ".txt"
-
-with open(dayFile, "r") as file:
-    content = file.read()
 
 msgNotification = msg[day]
 
 pb = Pushbullet(API_KEY)
-push = pb.push_note("Smart Bins Reminder", content + "/" + msgNotification)
+push = pb.push_note("Smart Bins Reminder", msgNotification)
