@@ -1,8 +1,8 @@
 import cv2
 from roboflow import Roboflow
-rf = Roboflow(api_key="Q9IcsfJCMLzQzVoymuKT")
-project = rf.workspace().project("smartbinwaste")
-model = project.version(2).model
+rf = Roboflow(api_key="P8s0kpMADt2zWD7STKh3")
+project = rf.workspace().project("smartrecycling")
+model = project.version(1).model
 
 imgPath = "Image/"
 
@@ -24,7 +24,7 @@ def itemIdentification():
     while True:
         result, img = captureImage()
         if result:
-            data = model.predict(img, confidence=20, overlap=30).json()
+            data = model.predict(img, confidence=60, overlap=30).json()
 
             predictions = data['predictions']
             for prediction in predictions:
@@ -38,4 +38,10 @@ def itemIdentification():
                 else:
                     print("Image captured show "+ object + " with " + str(confidence * 100) + "% Image to be taken again")
 
-itemIdentification()
+if __name__ == '__main__':
+    print('Program is starting ... ')
+    try:
+        itemIdentification()
+        
+    except KeyboardInterrupt:
+        print("Ending program")
