@@ -18,12 +18,12 @@ minPW = (0.5-myCorrection)/1000
 servo = AngularServo(servoGPIO,initial_angle=0,min_angle=0, max_angle=180,min_pulse_width=minPW,max_pulse_width=maxPW)
 
 # Setting details for Distance Sensor
-trigPin = 5
-echoPin = 21
+trigPin = 21
+echoPin = 6
 sensor = DistanceSensor(echo=echoPin, trigger=trigPin ,max_distance=3)
 binDepth = 20
-halfEmpty = binDepth/2
-nearFull = binDepth/4  # /4 because 4 = 25% meaning that only 25% of the bin is empty
+halfEmpty = 23/2
+nearFull = 23/4 # /4 because 4 = 25% meaning that only 25% of the bin is empty
 
 # Setting details for RGB LED
 rLED = 26
@@ -31,17 +31,21 @@ gLED = 19
 bLED = 13
 led = RGBLED(red=rLED, green=gLED, blue=bLED, active_high=True)
 
+with open("Data/Measure3.txt","r") as file:
+    reading3 = file.read()
+
 def servoOpen():
     # For this servo the negative angle makes the most confortable way to open the bin
-    displayMsg("Bin1Open","Bin" + binNo + "Open","Bins "+ binNo,"is opening")
-    for angle in range(180, -1, -1):   # make servo rotate from 0 to 180 deg
+    displayMsg("Bin3Open","Bin " + binNo + "Open","Bins "+ binNo +"is opening")
+    for angle in range(180, -1, -1):   # make servo rotate from 0 to 180 deg therefore open the bin
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
     sleep(0.5)
 
 def servoClose(endProg=False):
-    if endProg == False: # With this condition, the message will not appear when the program ends
-        displayMsg("Bin1Close", "Bin" + binNo + "Close","Bins "+ binNo,"is closing")
+    # this function takes care to signal the servo to close the bin
+    if endProg == False: # With this condition, the message will not appear when the program ends or starts
+        displayMsg("Bin3Close", "Bin" + binNo + "Close","Bins "+ binNo + "is closing")
     for angle in range(0, 181, 1): # make servo rotate from 180 to 0 deg
         servo.angle = angle
         sleep(SERVO_DELAY_SEC)
@@ -55,7 +59,9 @@ def noIRMotion():
     print("Item not yet thrown")
     sleep(1)
 
-def setColor(rDepth):
+def setColor(rDepth=reading3):
+    '''According to the value given as parameter the LED display the color'''
+    rDepth= float(rDepth)
     if rDepth <= nearFull:
         led.color = (1,0,0)
         displayMsg("Full","Bin " + binNo +" is", "nearly full")
@@ -70,16 +76,31 @@ def setColor(rDepth):
         led.color = (0,1,0)
 
 def distanceMeasure():
+    '''When this function is called the distance sensor measure the distance 
+    and the value measured will change the color of the LED if needed
+    '''
     distance = sensor.distance * 100
     distance = round(distance, 2)
     print(distance)
-    setColor(distance)
+    setColor(distance) # Set the color of the LED
+    # Save the value in the text file to better retrieve it for the GUI
     with open("Data/Measure3.txt","w") as file:
         file.write(str(distance))
-    
+
 if __name__ == "__main__":
-    servoOpen()
+    servoClose()
     distanceMeasure()
+    
+    '''setColor(20)
+    sleep(2)
+    setColor(11)
+    sleep(2)
+    setColor(2)
+    sleep(2)
+    led.color = (0, 0, 0)
+    servoOpen()
+    #distanceMeasure()
     sleep(2)
     servoClose()
-    led.color = (0, 0, 0)  # off
+    led.color = (0, 0, 0)  # off'''
+    

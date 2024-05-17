@@ -1,12 +1,13 @@
 from tkinter import *
 from PIL import ImageTk, Image
 
-binDepth = 23
+binDepth = 23 # Height of the bin
 
 def binStatus(value):
+    # Return the image according to the value
     halfEmpty = binDepth/2 # 11.5
     nearFull = binDepth/4 # 5.75
-    status = "Image/"
+    status = "Image/" # Folder where the images are located
 
     if value <= nearFull:
         status += "FullBin.png"
@@ -20,6 +21,8 @@ def binStatus(value):
     return status
 
 def calcPercentage(number):
+    '''For the GUI it will make it easier to understand the fullness of the bin 
+    by using percentage'''
     number = float(number)
     value = number/binDepth
     empty = value * 100
@@ -44,12 +47,12 @@ percent1 = calcPercentage(reading1)
 percent2 = calcPercentage(reading2)
 percent3 = calcPercentage(reading3)
 
-window = Tk() 
+window = Tk() # Creating the window
 window.title("Smart Bins Dashboard") # Set the title of the window
 
 # Set the window info
 title = Label(window, text="Smart Bins")
-window.iconbitmap("Image/SmartBinIcon.ico")
+#window.iconbitmap("Image/SmartBinIcon.ico") - unfortunately altough on laptop it works on the Pi it gives an error
 
 # Set the widgets
 bin1Title = Label(window, text="Organic", width=25)
@@ -88,4 +91,4 @@ info2.grid(row=4,column=1)
 info3.grid(row=4,column=2)
 exitBtn.grid(row=5,column=1)
 
-window.mainloop()
+window.mainloop() # Display the window

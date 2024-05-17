@@ -8,6 +8,7 @@ lcd1602 = CharLCD1602()
 mixer.init() # Speaker setting
 
 def info(audioName):
+    # This function starts the audio
     mixer.music.stop()
     mixer.music.set_volume(1.0)
     mixer.music.load(audioPath+audioName+".mp3")
@@ -16,6 +17,9 @@ def info(audioName):
         continue
     
 def displayMsg(audio,Msg1,Msg2=""):
+    '''Since the display and audio notify the same thing one of the parameters is the audio file.
+    The second argument is the first line of the diplay
+    The third argument is the second line of the diplay'''
     lcd1602.init_lcd()
     
     lcd1602.clear()
